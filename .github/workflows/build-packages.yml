@@ -1,0 +1,91 @@
+name: Build all packages
+on: 
+  workflow_dispatch:
+    inputs:
+      changelog_message:
+        description: 'Changelog message to add (in addition to "Rebuild for...")'
+        type: string
+
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    name: Build native packages
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=4194304
+
+      - name: Generate Bake override file
+        run: |
+          cat <<EOF > docker-bake.override.hcl
+          target "github_output" {
+            contexts = {
+              native = "target:native"
+            }
+            dockerfile-inline = <<-EOT
+            FROM debian:bookworm-slim AS github_output
+            COPY --from=native /github_outpu[t] /github_output
+            EOT
+            inherits = ["native"]
+            output = ["type=docker"]
+            tags = ["github_output"]
+            target = "github_output"
+          }
+          EOF
+
+      - name: Build the Docker image
+        uses: docker/bake-action@v4
+        env:
+          NAME: "${{ secrets.changelog_name }}"
+          EMAIL: "${{ secrets.changelog_email }}"
+          CHANGE: "${{ inputs.changelog_message }}"
+        with:
+          targets: native, github_output
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+      - name: Output GA specific messages
+        run: docker run --rm github_output bash -c "touch /github_output && cat /github_output"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-debs
+          path: artifacts
+
+  crossbuild:
+    runs-on: ubuntu-latest
+    name: Crossbuild packages
+    needs: native
+    strategy:
+      matrix:
+        arch: [armhf, arm64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=4194304
+
+      - name: Build the Docker image
+        uses: docker/bake-action@v4
+        env:
+          NAME: "${{ secrets.changelog_name }}"
+          EMAIL: "${{ secrets.changelog_email }}"
+          CHANGE: "${{ inputs.changelog_message }}"
+        with:
+          targets: crossbuild-${{ matrix.arch }}
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crossbuild-${{ matrix.arch }}-debs
+          path: artifacts
