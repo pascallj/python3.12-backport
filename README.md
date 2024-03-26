@@ -16,14 +16,13 @@ wget -qO- https://pascalroeleven.nl/deb-pascalroeleven.gpg | sudo tee /etc/apt/t
 
 Now you can add my repository by adding a file with my repository to the `sources.list.d` directory:
 ```sh
-cat <<EOF
+cat <<EOF | sudo tee /etc/apt/sources.list.d/pascalroeleven.sources
 Types: deb
 URIs: http://deb.pascalroeleven.nl/python3.12
 Suites: bookworm-backports
 Components: main
 Signed-By: /etc/apt/trusted.gpg.d/deb-pascalroeleven.gpg
 EOF
-| sudo tee /etc/apt/sources.list.d/pascalroeleven.sources
 ```
 
 After running `apt update` you should now be able to install Python 3.12 related packages.
