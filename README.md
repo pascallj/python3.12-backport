@@ -11,7 +11,7 @@ Because the version of pip present in Debian 12 bookworm isn't compatible with P
 ## Repository
 Packages can be downloaded from my repository at `deb.pascalroeleven.nl`. First you should also add my PGP (which you can get from my website via https) to APT's sources keyring:
 ```sh
-wget -qO- https://pascalroeleven.nl/deb-pascalroeleven.gpg | sudo tee /etc/apt/trusted.gpg.d/deb-pascalroeleven.gpg
+wget -qO- https://pascalroeleven.nl/deb-pascalroeleven.gpg | sudo tee /etc/apt/keyrings/deb-pascalroeleven.gpg
 ```
 
 Now you can add my repository by adding a file with my repository to the `sources.list.d` directory:
@@ -21,7 +21,7 @@ Types: deb
 URIs: http://deb.pascalroeleven.nl/python3.12
 Suites: bookworm-backports
 Components: main
-Signed-By: /etc/apt/trusted.gpg.d/deb-pascalroeleven.gpg
+Signed-By: /etc/apt/keyrings/deb-pascalroeleven.gpg
 EOF
 ```
 
