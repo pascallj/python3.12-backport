@@ -1,0 +1,412 @@
+From: Pascal Roeleven <dev@pascalroeleven.nl>
+Date: Thu, 2 May 2024 14:38:00 +0200
+Subject: Revert "  * Rename libraries for 64-bit time_t transition,
+ declare X-Time64-Compat"
+
+This reverts commit e06c71af05053440c9a576c5573865aef521ee25.
+---
+ debian/changelog                              |  6 +-----
+ debian/control                                | 19 +++++++------------
+ debian/control.in                             | 19 +++++++------------
+ debian/libPVER-dbg.overrides.in               | 20 ++++++++++++++++++++
+ debian/libPVER-dbg.prerm.in                   | 23 +++++++++++++++++++++++
+ debian/libPVER-dbg.symbols.in                 | 17 +++++++++++++++++
+ debian/libPVER.overrides.in                   |  4 ++++
+ debian/libPVER.symbols.in                     |  4 ++++
+ debian/libPVERt64-dbg.overrides.in            | 20 --------------------
+ debian/libPVERt64-dbg.prerm.in                | 23 -----------------------
+ debian/libPVERt64-dbg.symbols.in              | 17 -----------------
+ debian/libPVERt64.overrides.in                |  4 ----
+ debian/libPVERt64.symbols.in                  |  4 ----
+ debian/libpython3.12t64-dbg.lintian-overrides |  1 -
+ debian/libpython3.12t64.lintian-overrides     |  1 -
+ debian/rules                                  |  4 ++--
+ 16 files changed, 85 insertions(+), 101 deletions(-)
+ create mode 100644 debian/libPVER-dbg.overrides.in
+ create mode 100644 debian/libPVER-dbg.prerm.in
+ create mode 100644 debian/libPVER-dbg.symbols.in
+ create mode 100644 debian/libPVER.overrides.in
+ create mode 100644 debian/libPVER.symbols.in
+ delete mode 100644 debian/libPVERt64-dbg.overrides.in
+ delete mode 100644 debian/libPVERt64-dbg.prerm.in
+ delete mode 100644 debian/libPVERt64-dbg.symbols.in
+ delete mode 100644 debian/libPVERt64.overrides.in
+ delete mode 100644 debian/libPVERt64.symbols.in
+ delete mode 100644 debian/libpython3.12t64-dbg.lintian-overrides
+ delete mode 100644 debian/libpython3.12t64.lintian-overrides
+
+diff --git a/debian/changelog b/debian/changelog
+index 0cf0531..7cadee5 100644
+--- a/debian/changelog
++++ b/debian/changelog
+@@ -39,11 +39,7 @@ python3.12 (3.12.2-2) unstable; urgency=medium
+   * Don't rely on module state in teedataobject_clear (from Brandt Bucher in
+     https://github.com/python/cpython/issues/115874). Closes: #1063345.
+ 
+-  [ Steve Langasek ]
+-  * Rename libraries for 64-bit time_t transition, declare X-Time64-Compat
+-    to get proper Provides (Steve Langasek). Closes: #1064336.
+-
+- -- Matthias Klose <doko@debian.org>  Thu, 29 Feb 2024 02:56:09 +0100
++ -- Colin Watson <cjwatson@debian.org>  Tue, 27 Feb 2024 10:15:37 +0000
+ 
+ python3.12 (3.12.2-1) unstable; urgency=medium
+ 
+diff --git a/debian/control b/debian/control
+index 7490dc5..8e783fb 100644
+--- a/debian/control
++++ b/debian/control
+@@ -117,10 +117,7 @@ Description: Minimal subset of the Python language (version 3.12)
+  This package contains some essential modules. It is normally not
+  used on it's own, but as a dependency of python3.12-minimal.
+ 
+-Package: libpython3.12t64
+-Provides: ${t64:Provides}
+-Replaces: libpython3.12
+-Breaks: libpython3.12 (<< ${source:Version})
++Package: libpython3.12
+ Architecture: any
+ Multi-Arch: same
+ Section: libs
+@@ -147,7 +144,7 @@ Architecture: any
+ Multi-Arch: allowed
+ Depends: python3.12 (= ${binary:Version}),
+   libpython3.12-dev (= ${binary:Version}),
+-  libpython3.12t64 (= ${binary:Version}),
++  libpython3.12 (= ${binary:Version}),
+   ${shlibs:Depends}, ${misc:Depends}
+ Recommends: libc6-dev | libc-dev
+ Description: Header files and a static library for Python (v3.12)
+@@ -163,7 +160,7 @@ Architecture: any
+ Multi-Arch: same
+ Pre-Depends: ${misc:Pre-Depends}
+ Depends: libpython3.12-stdlib (= ${binary:Version}),
+-  libpython3.12t64 (= ${binary:Version}),
++  libpython3.12 (= ${binary:Version}),
+   libexpat1-dev, zlib1g-dev,
+   ${shlibs:Depends}, ${misc:Depends}
+ Recommends: libc6-dev | libc-dev
+@@ -225,7 +222,7 @@ Package: python3.12-dbg
+ Section: debug
+ Architecture: any
+ Multi-Arch: allowed
+-Depends: python3.12 (= ${binary:Version}), libpython3.12t64-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
++Depends: python3.12 (= ${binary:Version}), libpython3.12-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+ Recommends: gdb
+ Suggests: python3-gdbm-dbg, python3-tk-dbg
+ Description: Debug Build of the Python Interpreter (version 3.12)
+@@ -238,16 +235,14 @@ Description: Debug Build of the Python Interpreter (version 3.12)
+  .
+  See the README.debug for more information.
+ 
+-Package: libpython3.12t64-dbg
+-X-Time64-Compat: libpython3.12-dbg
+-Provides: ${t64:Provides}
++Package: libpython3.12-dbg
+ Section: debug
+ Architecture: any
+ Multi-Arch: same
+ Pre-Depends: ${misc:Pre-Depends}
+ Depends: libpython3.12-stdlib (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+-Breaks: libpython3.12-dbg (<< ${source:Version}), python3-gdbm-dbg (<< 3.9.9-1~)
+-Replaces: libpython3.12-dbg, python3-gdbm-dbg (<< 3.9.9-1~)
++Breaks: python3-gdbm-dbg (<< 3.9.9-1~)
++Replaces: python3-gdbm-dbg (<< 3.9.9-1~)
+ Description: Debug Build of the Python Interpreter (version 3.12)
+  The package holds two things:
+  .
+diff --git a/debian/control.in b/debian/control.in
+index 31737db..8b5d996 100644
+--- a/debian/control.in
++++ b/debian/control.in
+@@ -117,10 +117,7 @@ Description: Minimal subset of the Python language (version @VER@)
+  This package contains some essential modules. It is normally not
+  used on it's own, but as a dependency of @PVER@-minimal.
+ 
+-Package: lib@PVER@t64
+-Provides: ${t64:Provides}
+-Replaces: lib@PVER@
+-Breaks: lib@PVER@ (<< ${source:Version})
++Package: lib@PVER@
+ Architecture: any
+ Multi-Arch: same
+ Section: libs
+@@ -147,7 +144,7 @@ Architecture: any
+ Multi-Arch: allowed
+ Depends: @PVER@ (= ${binary:Version}),
+   lib@PVER@-dev (= ${binary:Version}),
+-  lib@PVER@t64 (= ${binary:Version}),
++  lib@PVER@ (= ${binary:Version}),
+   ${shlibs:Depends}, ${misc:Depends}
+ Recommends: libc6-dev | libc-dev
+ Description: Header files and a static library for Python (v@VER@)
+@@ -163,7 +160,7 @@ Architecture: any
+ Multi-Arch: same
+ Pre-Depends: ${misc:Pre-Depends}
+ Depends: lib@PVER@-stdlib (= ${binary:Version}),
+-  lib@PVER@t64 (= ${binary:Version}),
++  lib@PVER@ (= ${binary:Version}),
+   libexpat1-dev, zlib1g-dev,
+   ${shlibs:Depends}, ${misc:Depends}
+ Recommends: libc6-dev | libc-dev
+@@ -225,7 +222,7 @@ Package: @PVER@-dbg
+ Section: debug
+ Architecture: any
+ Multi-Arch: allowed
+-Depends: @PVER@ (= ${binary:Version}), lib@PVER@t64-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
++Depends: @PVER@ (= ${binary:Version}), lib@PVER@-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+ Recommends: gdb
+ Suggests: python3-gdbm-dbg, python3-tk-dbg
+ Description: Debug Build of the Python Interpreter (version @VER@)
+@@ -238,16 +235,14 @@ Description: Debug Build of the Python Interpreter (version @VER@)
+  .
+  See the README.debug for more information.
+ 
+-Package: lib@PVER@t64-dbg
+-X-Time64-Compat: lib@PVER@-dbg
+-Provides: ${t64:Provides}
++Package: lib@PVER@-dbg
+ Section: debug
+ Architecture: any
+ Multi-Arch: same
+ Pre-Depends: ${misc:Pre-Depends}
+ Depends: lib@PVER@-stdlib (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+-Breaks: lib@PVER@-dbg (<< ${source:Version}), python3-gdbm-dbg (<< 3.9.9-1~)
+-Replaces: lib@PVER@-dbg, python3-gdbm-dbg (<< 3.9.9-1~)
++Breaks: python3-gdbm-dbg (<< 3.9.9-1~)
++Replaces: python3-gdbm-dbg (<< 3.9.9-1~)
+ Description: Debug Build of the Python Interpreter (version @VER@)
+  The package holds two things:
+  .
+diff --git a/debian/libPVER-dbg.overrides.in b/debian/libPVER-dbg.overrides.in
+new file mode 100644
+index 0000000..2496cd5
+--- /dev/null
++++ b/debian/libPVER-dbg.overrides.in
+@@ -0,0 +1,20 @@
++lib@PVER@-dbg binary: package-name-doesnt-match-sonames
++lib@PVER@-dbg binary: non-dev-pkg-with-shlib-symlink
++
++# no, it's not unusual
++lib@PVER@-dbg binary: unusual-interpreter
++
++# just the gdb debug file
++lib@PVER@-dbg binary: python3-script-but-no-python3-dep
++
++# pointless lintian ...
++lib@PVER@-dbg binary: hardening-no-fortify-functions
++
++lib@PVER@-dbg binary: arch-dependent-file-not-in-arch-specific-directory
++
++# yes, some extensions don't have references to any external lib
++lib@PVER@-dbg binary: shared-lib-without-dependency-information
++lib@PVER@-dbg binary: library-not-linked-against-libc
++
++# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
++lib@PVER@-dbg binary: embedded-library
+diff --git a/debian/libPVER-dbg.prerm.in b/debian/libPVER-dbg.prerm.in
+new file mode 100644
+index 0000000..8f7e0e8
+--- /dev/null
++++ b/debian/libPVER-dbg.prerm.in
+@@ -0,0 +1,23 @@
++#! /bin/sh
++
++set -e
++
++case "$1" in
++    remove)
++	dpkg -L lib@PVER@-dbg@HOST_QUAL@ \
++	    | awk '/\.py$/ {print $0"c\n" $0"o"}' \
++	    | xargs -r rm -f >&2
++        ;;
++    upgrade)
++        ;;
++    deconfigure)
++        ;;
++    failed-upgrade)
++        ;;
++    *)
++        echo "prerm called with unknown argument \`$1'" >&2
++        exit 1
++    ;;
++esac
++
++#DEBHELPER#
+diff --git a/debian/libPVER-dbg.symbols.in b/debian/libPVER-dbg.symbols.in
+new file mode 100644
+index 0000000..e3f90ef
+--- /dev/null
++++ b/debian/libPVER-dbg.symbols.in
+@@ -0,0 +1,17 @@
++libpython@VER@d.so.1.0 libpython@VER@-dbg #MINVER#
++#include "libpython.symbols"
++ _PyInterpreterState_GetRefTotal@Base @SVER@
++ _PyObject_DebugMallocStats@Base @SVER@
++ _PySet_Dummy@Base @SVER@
++ _PyUnicode_CheckConsistency@Base @SVER@
++ _PyWideStringList_CheckConsistency@Base @SVER@
++ _Py_Dealloc@Base @SVER@
++ _Py_DECREF_DecRefTotal@Base @SVER@
++ _Py_GetGlobalRefTotal@Base @SVER@
++ _Py_GetLegacyRefTotal@Base @SVER@
++ _Py_HashSecret_Initialized@Base @SVER@
++ _Py_INCREF_IncRefTotal@Base @SVER@
++ _Py_NegativeRefcount@Base @SVER@
++ _Py_RefTotal@Base @SVER@
++ PyModule_Create2@Base @SVER@
++ PyModule_FromDefAndSpec2@Base @SVER@
+diff --git a/debian/libPVER.overrides.in b/debian/libPVER.overrides.in
+new file mode 100644
+index 0000000..062dd46
+--- /dev/null
++++ b/debian/libPVER.overrides.in
+@@ -0,0 +1,4 @@
++lib@PVER@ binary: package-name-doesnt-match-sonames
++
++# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
++lib@PVER@ binary: embedded-library
+diff --git a/debian/libPVER.symbols.in b/debian/libPVER.symbols.in
+new file mode 100644
+index 0000000..6b55def
+--- /dev/null
++++ b/debian/libPVER.symbols.in
+@@ -0,0 +1,4 @@
++libpython@VER@.so.1.0 libpython@VER@ #MINVER#
++#include "libpython.symbols"
++ PyModule_Create2@Base @SVER@
++ PyModule_FromDefAndSpec2@Base @SVER@
+diff --git a/debian/libPVERt64-dbg.overrides.in b/debian/libPVERt64-dbg.overrides.in
+deleted file mode 100644
+index 2496cd5..0000000
+--- a/debian/libPVERt64-dbg.overrides.in
++++ /dev/null
+@@ -1,20 +0,0 @@
+-lib@PVER@-dbg binary: package-name-doesnt-match-sonames
+-lib@PVER@-dbg binary: non-dev-pkg-with-shlib-symlink
+-
+-# no, it's not unusual
+-lib@PVER@-dbg binary: unusual-interpreter
+-
+-# just the gdb debug file
+-lib@PVER@-dbg binary: python3-script-but-no-python3-dep
+-
+-# pointless lintian ...
+-lib@PVER@-dbg binary: hardening-no-fortify-functions
+-
+-lib@PVER@-dbg binary: arch-dependent-file-not-in-arch-specific-directory
+-
+-# yes, some extensions don't have references to any external lib
+-lib@PVER@-dbg binary: shared-lib-without-dependency-information
+-lib@PVER@-dbg binary: library-not-linked-against-libc
+-
+-# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
+-lib@PVER@-dbg binary: embedded-library
+diff --git a/debian/libPVERt64-dbg.prerm.in b/debian/libPVERt64-dbg.prerm.in
+deleted file mode 100644
+index e113055..0000000
+--- a/debian/libPVERt64-dbg.prerm.in
++++ /dev/null
+@@ -1,23 +0,0 @@
+-#! /bin/sh
+-
+-set -e
+-
+-case "$1" in
+-    remove)
+-	dpkg -L lib@PVER@t64-dbg@HOST_QUAL@ \
+-	    | awk '/\.py$/ {print $0"c\n" $0"o"}' \
+-	    | xargs -r rm -f >&2
+-        ;;
+-    upgrade)
+-        ;;
+-    deconfigure)
+-        ;;
+-    failed-upgrade)
+-        ;;
+-    *)
+-        echo "prerm called with unknown argument \`$1'" >&2
+-        exit 1
+-    ;;
+-esac
+-
+-#DEBHELPER#
+diff --git a/debian/libPVERt64-dbg.symbols.in b/debian/libPVERt64-dbg.symbols.in
+deleted file mode 100644
+index bf19eb3..0000000
+--- a/debian/libPVERt64-dbg.symbols.in
++++ /dev/null
+@@ -1,17 +0,0 @@
+-libpython@VER@d.so.1.0 libpython@VER@t64-dbg #MINVER#
+-#include "libpython.symbols"
+- _PyInterpreterState_GetRefTotal@Base @SVER@
+- _PyObject_DebugMallocStats@Base @SVER@
+- _PySet_Dummy@Base @SVER@
+- _PyUnicode_CheckConsistency@Base @SVER@
+- _PyWideStringList_CheckConsistency@Base @SVER@
+- _Py_Dealloc@Base @SVER@
+- _Py_DECREF_DecRefTotal@Base @SVER@
+- _Py_GetGlobalRefTotal@Base @SVER@
+- _Py_GetLegacyRefTotal@Base @SVER@
+- _Py_HashSecret_Initialized@Base @SVER@
+- _Py_INCREF_IncRefTotal@Base @SVER@
+- _Py_NegativeRefcount@Base @SVER@
+- _Py_RefTotal@Base @SVER@
+- PyModule_Create2@Base @SVER@
+- PyModule_FromDefAndSpec2@Base @SVER@
+diff --git a/debian/libPVERt64.overrides.in b/debian/libPVERt64.overrides.in
+deleted file mode 100644
+index 062dd46..0000000
+--- a/debian/libPVERt64.overrides.in
++++ /dev/null
+@@ -1,4 +0,0 @@
+-lib@PVER@ binary: package-name-doesnt-match-sonames
+-
+-# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
+-lib@PVER@ binary: embedded-library
+diff --git a/debian/libPVERt64.symbols.in b/debian/libPVERt64.symbols.in
+deleted file mode 100644
+index cfa89a4..0000000
+--- a/debian/libPVERt64.symbols.in
++++ /dev/null
+@@ -1,4 +0,0 @@
+-libpython@VER@.so.1.0 libpython@VER@t64 #MINVER#
+-#include "libpython.symbols"
+- PyModule_Create2@Base @SVER@
+- PyModule_FromDefAndSpec2@Base @SVER@
+diff --git a/debian/libpython3.12t64-dbg.lintian-overrides b/debian/libpython3.12t64-dbg.lintian-overrides
+deleted file mode 100644
+index 9de8473..0000000
+--- a/debian/libpython3.12t64-dbg.lintian-overrides
++++ /dev/null
+@@ -1 +0,0 @@
+-libpython3.12t64-dbg: package-name-doesnt-match-sonames libpython3.12-dbg
+diff --git a/debian/libpython3.12t64.lintian-overrides b/debian/libpython3.12t64.lintian-overrides
+deleted file mode 100644
+index ca7fd77..0000000
+--- a/debian/libpython3.12t64.lintian-overrides
++++ /dev/null
+@@ -1 +0,0 @@
+-libpython3.12t64: package-name-doesnt-match-sonames libpython3.12
+diff --git a/debian/rules b/debian/rules
+index 5fc1d7f..3dfda24 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -280,7 +280,7 @@ scriptdir	=  usr/lib/python$(VER)
+ p_base	:= $(PVER)
+ p_npie	:= $(PVER)-nopie
+ p_min	:= $(PVER)-minimal
+-p_lib	:= lib$(PVER)t64
++p_lib	:= lib$(PVER)
+ p_tk	:= $(PVER)-tk
+ p_dev	:= $(PVER)-dev
+ p_exam	:= $(PVER)-examples
+@@ -294,7 +294,7 @@ p_full	:= $(PVER)-full
+ p_lbase	:= lib$(PVER)-stdlib
+ p_lmin	:= lib$(PVER)-minimal
+ p_ldev	:= lib$(PVER)-dev
+-p_ldbg	:= lib$(PVER)t64-dbg
++p_ldbg	:= lib$(PVER)-dbg
+ p_ltst	:= lib$(PVER)-testsuite
+ 
+ d_base	:= debian/$(p_base)

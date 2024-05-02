@@ -1,0 +1,72 @@
+From: Pascal Roeleven <dev@pascalroeleven.nl>
+Date: Thu, 2 May 2024 14:38:00 +0200
+Subject: Revert "  * Fix override files for renamed t64 packages."
+
+This reverts commit 0698a384267367a521f80ad3e163e2fe5195f950.
+---
+ debian/changelog                   |  2 --
+ debian/libPVERt64-dbg.overrides.in | 18 +++++++++---------
+ debian/libPVERt64.overrides.in     |  4 ++--
+ 3 files changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/debian/changelog b/debian/changelog
+index 69ba6c4..0cf0531 100644
+--- a/debian/changelog
++++ b/debian/changelog
+@@ -19,11 +19,9 @@ python3.12 (3.12.2-5) unstable; urgency=medium
+ 
+ python3.12 (3.12.2-4) unstable; urgency=medium
+ 
+-  [ Stefano Rivera ]
+   * Build-Depend on libnsl-dev for NIS support. Closes: #1065128.
+ 
+   [ Matthias Klose ]
+-  * Fix override files for renamed t64 packages.
+   * Fix package names in PVER-dbg maintainer scripts. Addresses: #1065164.
+   * Really build without LTO when requested.
+ 
+diff --git a/debian/libPVERt64-dbg.overrides.in b/debian/libPVERt64-dbg.overrides.in
+index 249ef2a..2496cd5 100644
+--- a/debian/libPVERt64-dbg.overrides.in
++++ b/debian/libPVERt64-dbg.overrides.in
+@@ -1,20 +1,20 @@
+-lib@PVER@t64-dbg binary: package-name-doesnt-match-sonames
+-lib@PVER@t64-dbg binary: non-dev-pkg-with-shlib-symlink
++lib@PVER@-dbg binary: package-name-doesnt-match-sonames
++lib@PVER@-dbg binary: non-dev-pkg-with-shlib-symlink
+ 
+ # no, it's not unusual
+-lib@PVER@t64-dbg binary: unusual-interpreter
++lib@PVER@-dbg binary: unusual-interpreter
+ 
+ # just the gdb debug file
+-lib@PVER@t64-dbg binary: python3-script-but-no-python3-dep
++lib@PVER@-dbg binary: python3-script-but-no-python3-dep
+ 
+ # pointless lintian ...
+-lib@PVER@t64-dbg binary: hardening-no-fortify-functions
++lib@PVER@-dbg binary: hardening-no-fortify-functions
+ 
+-lib@PVER@t64-dbg binary: arch-dependent-file-not-in-arch-specific-directory
++lib@PVER@-dbg binary: arch-dependent-file-not-in-arch-specific-directory
+ 
+ # yes, some extensions don't have references to any external lib
+-lib@PVER@t64-dbg binary: shared-lib-without-dependency-information
+-lib@PVER@t64-dbg binary: library-not-linked-against-libc
++lib@PVER@-dbg binary: shared-lib-without-dependency-information
++lib@PVER@-dbg binary: library-not-linked-against-libc
+ 
+ # pyexpat.c contains expat error messages that lintian mis-attributes to embedding
+-lib@PVER@t64-dbg binary: embedded-library
++lib@PVER@-dbg binary: embedded-library
+diff --git a/debian/libPVERt64.overrides.in b/debian/libPVERt64.overrides.in
+index 6004d81..062dd46 100644
+--- a/debian/libPVERt64.overrides.in
++++ b/debian/libPVERt64.overrides.in
+@@ -1,4 +1,4 @@
+-lib@PVER@t64 binary: package-name-doesnt-match-sonames
++lib@PVER@ binary: package-name-doesnt-match-sonames
+ 
+ # pyexpat.c contains expat error messages that lintian mis-attributes to embedding
+-lib@PVER@t64 binary: embedded-library
++lib@PVER@ binary: embedded-library
