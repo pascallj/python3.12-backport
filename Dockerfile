@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG PYTHON_NAME="python3.12"
 ARG PYTHON_VERSION="3.12.3-1"
-ARG DIST_NAME="sid"
+ARG DIST_NAME="trixie"
 
 # -------------------- Preparation --------------------
 FROM debian:bookworm-slim AS pre-build
@@ -26,9 +26,10 @@ RUN	apt-get source --download-only ${PYTHON_NAME}=${PYTHON_VERSION} && \
 	dpkg-source -x --skip-patches ${PYTHON_NAME}*.dsc && \
 	mv ${PYTHON_NAME}*/ python-source
 WORKDIR python-source
-ADD ensurepip-enabled.diff debian/patches
+ADD patches/*.diff patches/*.patch debian/patches
+ADD patches/series debian/patches/series_extra
 RUN	sed -i '/^ensurepip-disabled.diff$/s/^/#/' debian/patches/series && \
-	echo 'ensurepip-enabled.diff' >> debian/patches/series
+	cat debian/patches/series_extra >> debian/patches/series
 
 ADD changelog_previous .
 RUN if [ -s changelog_previous ]; then echo "$(cat changelog_previous)\n\
