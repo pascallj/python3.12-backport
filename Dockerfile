@@ -30,6 +30,7 @@ ADD patches/*.diff patches/*.patch debian/patches
 ADD patches/series debian/patches/series_extra
 RUN	sed -i '/^ensurepip-disabled.diff$/s/^/#/' debian/patches/series && \
 	cat debian/patches/series_extra >> debian/patches/series
+RUN dpkg-source --before-build .
 
 ADD changelog_previous .
 RUN if [ -s changelog_previous ]; then echo "$(cat changelog_previous)\n\
