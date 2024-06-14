@@ -7,12 +7,21 @@ ARG DIST_NAME="sid"
 FROM debian:bookworm-slim AS pre-build
 ARG DIST_NAME
 RUN echo "\
-Types: deb-src\n\
+Types: deb deb-src\n\
 URIs: http://deb.debian.org/debian\n\
 Suites: ${DIST_NAME}\n\
 Components: main\n\
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg" \
 > /etc/apt/sources.list.d/${DIST_NAME}-src.sources
+RUN echo "\
+Package: *\n\
+Pin: release n=${DIST_NAME}\n\
+Pin-Priority: 1 \n\
+\n\
+Package: libjs-sphinxdoc sphinx-common python3-sphinx\n\
+Pin: release n=${DIST_NAME}\n\
+Pin-Priority: 500" \
+> /etc/apt/preferences.d/99pinning
 RUN	apt-get update && \
 	apt-get upgrade -y && \
 	apt-get install -y --no-install-recommends devscripts equivs
