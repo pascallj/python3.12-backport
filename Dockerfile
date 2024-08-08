@@ -18,7 +18,7 @@ Package: *\n\
 Pin: release n=${DIST_NAME}\n\
 Pin-Priority: 1 \n\
 \n\
-Package: libjs-sphinxdoc sphinx-common python3-sphinx python3-docs-theme\n\
+Package: libjs-sphinxdoc sphinx-common python3-sphinx python3-docs-theme python-babel-localedata docutils-common python3-alabaster python3-babel python3-docutils python3-pygments python3-requests\n\
 Pin: release n=${DIST_NAME}\n\
 Pin-Priority: 500" \
 > /etc/apt/preferences.d/99pinning
