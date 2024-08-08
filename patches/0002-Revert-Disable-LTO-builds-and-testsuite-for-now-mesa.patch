@@ -11,11 +11,9 @@ This reverts commit 735d431bcfec62fa4bb573a450027d87b6843bd6.
  debian/rules      | 4 ----
  4 files changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/debian/changelog b/debian/changelog
-index e81b2ca..69ba6c4 100644
 --- a/debian/changelog
 +++ b/debian/changelog
-@@ -26,7 +26,6 @@ python3.12 (3.12.2-4) unstable; urgency=medium
+@@ -64,7 +64,6 @@
    * Fix override files for renamed t64 packages.
    * Fix package names in PVER-dbg maintainer scripts. Addresses: #1065164.
    * Really build without LTO when requested.
@@ -23,69 +21,18 @@ index e81b2ca..69ba6c4 100644
  
   -- Matthias Klose <doko@debian.org>  Sun, 03 Mar 2024 10:11:00 +0100
  
-diff --git a/debian/control b/debian/control
-index 1e71332..7490dc5 100644
---- a/debian/control
-+++ b/debian/control
-@@ -9,17 +9,15 @@ Build-Depends: debhelper (>= 11), dpkg-dev (>= 1.17.11),
-   libreadline-dev | libeditreadline-dev, libncurses-dev, 
-   zlib1g-dev, libbz2-dev, liblzma-dev,
-   libgdbm-dev, libdb-dev,
--#  tk-dev, blt-dev (>= 2.4z),
--  libssl-dev,
-+  tk-dev, blt-dev (>= 2.4z), libssl-dev,
-   libexpat1-dev,
-   libbluetooth-dev [linux-any] <!pkg.python3.12.nobluetooth>,
--  locales-all,
-   libnsl-dev,
-+  locales-all,
-   libsqlite3-dev, libffi-dev (>= 3.0.5) [!or1k],
-   libgpm2 [linux-any],
-   media-types | mime-support, netbase, bzip2, time, python3:any, python3.12:any <cross>,
--  net-tools,
--#  xvfb <!nocheck>, xauth <!nocheck>, tzdata <!nocheck>,
-+  net-tools, xvfb <!nocheck>, xauth <!nocheck>, tzdata <!nocheck>,
-   systemtap-sdt-dev [!hurd-amd64 !hurd-i386],
-   valgrind-if-available,
- Build-Depends-Indep: python3-sphinx, python3-docs-theme, texinfo
-diff --git a/debian/control.in b/debian/control.in
-index e5f7fbe..31737db 100644
---- a/debian/control.in
-+++ b/debian/control.in
-@@ -9,8 +9,7 @@ Build-Depends: debhelper (>= 11), @bd_dpkgdev@
-   libreadline-dev | libeditreadline-dev, libncurses-dev, @bd_gcc@
-   zlib1g-dev, libbz2-dev, liblzma-dev,
-   libgdbm-dev, @bd_dbm@,
--#  tk-dev, blt-dev (>= 2.4z),
--  libssl-dev,
-+  tk-dev, blt-dev (>= 2.4z), libssl-dev,
-   libexpat1-dev,
-   libbluetooth-dev [linux-any] <!pkg.@PVER@.nobluetooth>,
-   locales-all,
-@@ -18,8 +17,7 @@ Build-Depends: debhelper (>= 11), @bd_dpkgdev@
-   libsqlite3-dev, libffi-dev (>= 3.0.5) [!or1k],
-   libgpm2 [linux-any],
-   media-types | mime-support, netbase, bzip2, time, python3@bd_qual@, @PVER@@bd_qual@ <cross>,
--  net-tools,
--#  xvfb <!nocheck>, xauth <!nocheck>, tzdata <!nocheck>,
-+  net-tools, xvfb <!nocheck>, xauth <!nocheck>, tzdata <!nocheck>,
-   systemtap-sdt-dev [!hurd-amd64 !hurd-i386],
-   valgrind-if-available,
- Build-Depends-Indep: python3-sphinx, python3-docs-theme, texinfo
-diff --git a/debian/rules b/debian/rules
-index 47dbe0b..5fc1d7f 100755
 --- a/debian/rules
 +++ b/debian/rules
-@@ -65,8 +65,6 @@ ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
+@@ -49,8 +49,6 @@
    WITHOUT_BENCH := yes
    WITHOUT_CHECK := yes
  endif
 -WITHOUT_BENCH := yes
 -WITHOUT_CHECK := yes
  
+ SPACE = $(EMPTY) $(EMPTY)
  COMMA = ,
- ifneq (,$(filter parallel=%,$(subst $(COMMA), ,$(DEB_BUILD_OPTIONS))))
-@@ -233,8 +231,6 @@ ifneq (,$(findstring noopt, $(DEB_BUILD_OPTIONS)))
+@@ -231,8 +229,6 @@
      with_pgo =
      with_lto =
  endif
@@ -94,3 +41,14 @@ index 47dbe0b..5fc1d7f 100755
  
  BASE_LTO_CFLAGS = -g -fwrapv -O3
  ifeq ($(with_lto),yes)
+--- a/debian/control
++++ b/debian/control
+@@ -19,7 +19,7 @@
+   libgpm2 [linux-any],
+   media-types | mime-support, netbase, bzip2, time, python3:any, python3.12:any <cross>,
+   net-tools,
+-#  xvfb <!nocheck>, xauth <!nocheck>,
++  xvfb <!nocheck>, xauth <!nocheck>,
+   tzdata <!nocheck>,
+   systemtap-sdt-dev [!hurd-amd64 !hurd-i386],
+   valgrind-if-available,

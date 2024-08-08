@@ -35,11 +35,9 @@ This reverts commit e06c71af05053440c9a576c5573865aef521ee25.
  delete mode 100644 debian/libpython3.12t64-dbg.lintian-overrides
  delete mode 100644 debian/libpython3.12t64.lintian-overrides
 
-diff --git a/debian/changelog b/debian/changelog
-index 0cf0531..7cadee5 100644
 --- a/debian/changelog
 +++ b/debian/changelog
-@@ -39,11 +39,7 @@ python3.12 (3.12.2-2) unstable; urgency=medium
+@@ -77,11 +77,7 @@
    * Don't rely on module state in teedataobject_clear (from Brandt Bucher in
      https://github.com/python/cpython/issues/115874). Closes: #1063345.
  
@@ -52,11 +50,9 @@ index 0cf0531..7cadee5 100644
  
  python3.12 (3.12.2-1) unstable; urgency=medium
  
-diff --git a/debian/control b/debian/control
-index 7490dc5..8e783fb 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -117,10 +117,7 @@ Description: Minimal subset of the Python language (version 3.12)
+@@ -118,10 +118,7 @@
   This package contains some essential modules. It is normally not
   used on it's own, but as a dependency of python3.12-minimal.
  
@@ -68,7 +64,7 @@ index 7490dc5..8e783fb 100644
  Architecture: any
  Multi-Arch: same
  Section: libs
-@@ -147,7 +144,7 @@ Architecture: any
+@@ -148,7 +145,7 @@
  Multi-Arch: allowed
  Depends: python3.12 (= ${binary:Version}),
    libpython3.12-dev (= ${binary:Version}),
@@ -77,7 +73,7 @@ index 7490dc5..8e783fb 100644
    ${shlibs:Depends}, ${misc:Depends}
  Recommends: libc6-dev | libc-dev
  Description: Header files and a static library for Python (v3.12)
-@@ -163,7 +160,7 @@ Architecture: any
+@@ -164,7 +161,7 @@
  Multi-Arch: same
  Pre-Depends: ${misc:Pre-Depends}
  Depends: libpython3.12-stdlib (= ${binary:Version}),
@@ -86,7 +82,7 @@ index 7490dc5..8e783fb 100644
    libexpat1-dev, zlib1g-dev,
    ${shlibs:Depends}, ${misc:Depends}
  Recommends: libc6-dev | libc-dev
-@@ -225,7 +222,7 @@ Package: python3.12-dbg
+@@ -226,7 +223,7 @@
  Section: debug
  Architecture: any
  Multi-Arch: allowed
@@ -95,7 +91,7 @@ index 7490dc5..8e783fb 100644
  Recommends: gdb
  Suggests: python3-gdbm-dbg, python3-tk-dbg
  Description: Debug Build of the Python Interpreter (version 3.12)
-@@ -238,16 +235,14 @@ Description: Debug Build of the Python Interpreter (version 3.12)
+@@ -239,16 +236,14 @@
   .
   See the README.debug for more information.
  
@@ -115,11 +111,9 @@ index 7490dc5..8e783fb 100644
  Description: Debug Build of the Python Interpreter (version 3.12)
   The package holds two things:
   .
-diff --git a/debian/control.in b/debian/control.in
-index 31737db..8b5d996 100644
 --- a/debian/control.in
 +++ b/debian/control.in
-@@ -117,10 +117,7 @@ Description: Minimal subset of the Python language (version @VER@)
+@@ -118,10 +118,7 @@
   This package contains some essential modules. It is normally not
   used on it's own, but as a dependency of @PVER@-minimal.
  
@@ -131,7 +125,7 @@ index 31737db..8b5d996 100644
  Architecture: any
  Multi-Arch: same
  Section: libs
-@@ -147,7 +144,7 @@ Architecture: any
+@@ -148,7 +145,7 @@
  Multi-Arch: allowed
  Depends: @PVER@ (= ${binary:Version}),
    lib@PVER@-dev (= ${binary:Version}),
@@ -140,7 +134,7 @@ index 31737db..8b5d996 100644
    ${shlibs:Depends}, ${misc:Depends}
  Recommends: libc6-dev | libc-dev
  Description: Header files and a static library for Python (v@VER@)
-@@ -163,7 +160,7 @@ Architecture: any
+@@ -164,7 +161,7 @@
  Multi-Arch: same
  Pre-Depends: ${misc:Pre-Depends}
  Depends: lib@PVER@-stdlib (= ${binary:Version}),
@@ -149,7 +143,7 @@ index 31737db..8b5d996 100644
    libexpat1-dev, zlib1g-dev,
    ${shlibs:Depends}, ${misc:Depends}
  Recommends: libc6-dev | libc-dev
-@@ -225,7 +222,7 @@ Package: @PVER@-dbg
+@@ -226,7 +223,7 @@
  Section: debug
  Architecture: any
  Multi-Arch: allowed
@@ -158,7 +152,7 @@ index 31737db..8b5d996 100644
  Recommends: gdb
  Suggests: python3-gdbm-dbg, python3-tk-dbg
  Description: Debug Build of the Python Interpreter (version @VER@)
-@@ -238,16 +235,14 @@ Description: Debug Build of the Python Interpreter (version @VER@)
+@@ -239,16 +236,14 @@
   .
   See the README.debug for more information.
  
@@ -178,9 +172,6 @@ index 31737db..8b5d996 100644
  Description: Debug Build of the Python Interpreter (version @VER@)
   The package holds two things:
   .
-diff --git a/debian/libPVER-dbg.overrides.in b/debian/libPVER-dbg.overrides.in
-new file mode 100644
-index 0000000..2496cd5
 --- /dev/null
 +++ b/debian/libPVER-dbg.overrides.in
 @@ -0,0 +1,20 @@
@@ -204,9 +195,6 @@ index 0000000..2496cd5
 +
 +# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
 +lib@PVER@-dbg binary: embedded-library
-diff --git a/debian/libPVER-dbg.prerm.in b/debian/libPVER-dbg.prerm.in
-new file mode 100644
-index 0000000..8f7e0e8
 --- /dev/null
 +++ b/debian/libPVER-dbg.prerm.in
 @@ -0,0 +1,23 @@
@@ -233,9 +221,6 @@ index 0000000..8f7e0e8
 +esac
 +
 +#DEBHELPER#
-diff --git a/debian/libPVER-dbg.symbols.in b/debian/libPVER-dbg.symbols.in
-new file mode 100644
-index 0000000..e3f90ef
 --- /dev/null
 +++ b/debian/libPVER-dbg.symbols.in
 @@ -0,0 +1,17 @@
@@ -256,9 +241,6 @@ index 0000000..e3f90ef
 + _Py_RefTotal@Base @SVER@
 + PyModule_Create2@Base @SVER@
 + PyModule_FromDefAndSpec2@Base @SVER@
-diff --git a/debian/libPVER.overrides.in b/debian/libPVER.overrides.in
-new file mode 100644
-index 0000000..062dd46
 --- /dev/null
 +++ b/debian/libPVER.overrides.in
 @@ -0,0 +1,4 @@
@@ -266,9 +248,6 @@ index 0000000..062dd46
 +
 +# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
 +lib@PVER@ binary: embedded-library
-diff --git a/debian/libPVER.symbols.in b/debian/libPVER.symbols.in
-new file mode 100644
-index 0000000..6b55def
 --- /dev/null
 +++ b/debian/libPVER.symbols.in
 @@ -0,0 +1,4 @@
@@ -276,9 +255,6 @@ index 0000000..6b55def
 +#include "libpython.symbols"
 + PyModule_Create2@Base @SVER@
 + PyModule_FromDefAndSpec2@Base @SVER@
-diff --git a/debian/libPVERt64-dbg.overrides.in b/debian/libPVERt64-dbg.overrides.in
-deleted file mode 100644
-index 2496cd5..0000000
 --- a/debian/libPVERt64-dbg.overrides.in
 +++ /dev/null
 @@ -1,20 +0,0 @@
@@ -302,9 +278,6 @@ index 2496cd5..0000000
 -
 -# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
 -lib@PVER@-dbg binary: embedded-library
-diff --git a/debian/libPVERt64-dbg.prerm.in b/debian/libPVERt64-dbg.prerm.in
-deleted file mode 100644
-index e113055..0000000
 --- a/debian/libPVERt64-dbg.prerm.in
 +++ /dev/null
 @@ -1,23 +0,0 @@
@@ -331,9 +304,6 @@ index e113055..0000000
 -esac
 -
 -#DEBHELPER#
-diff --git a/debian/libPVERt64-dbg.symbols.in b/debian/libPVERt64-dbg.symbols.in
-deleted file mode 100644
-index bf19eb3..0000000
 --- a/debian/libPVERt64-dbg.symbols.in
 +++ /dev/null
 @@ -1,17 +0,0 @@
@@ -354,9 +324,6 @@ index bf19eb3..0000000
 - _Py_RefTotal@Base @SVER@
 - PyModule_Create2@Base @SVER@
 - PyModule_FromDefAndSpec2@Base @SVER@
-diff --git a/debian/libPVERt64.overrides.in b/debian/libPVERt64.overrides.in
-deleted file mode 100644
-index 062dd46..0000000
 --- a/debian/libPVERt64.overrides.in
 +++ /dev/null
 @@ -1,4 +0,0 @@
@@ -364,9 +331,6 @@ index 062dd46..0000000
 -
 -# pyexpat.c contains expat error messages that lintian mis-attributes to embedding
 -lib@PVER@ binary: embedded-library
-diff --git a/debian/libPVERt64.symbols.in b/debian/libPVERt64.symbols.in
-deleted file mode 100644
-index cfa89a4..0000000
 --- a/debian/libPVERt64.symbols.in
 +++ /dev/null
 @@ -1,4 +0,0 @@
@@ -374,25 +338,17 @@ index cfa89a4..0000000
 -#include "libpython.symbols"
 - PyModule_Create2@Base @SVER@
 - PyModule_FromDefAndSpec2@Base @SVER@
-diff --git a/debian/libpython3.12t64-dbg.lintian-overrides b/debian/libpython3.12t64-dbg.lintian-overrides
-deleted file mode 100644
-index 9de8473..0000000
 --- a/debian/libpython3.12t64-dbg.lintian-overrides
 +++ /dev/null
 @@ -1 +0,0 @@
 -libpython3.12t64-dbg: package-name-doesnt-match-sonames libpython3.12-dbg
-diff --git a/debian/libpython3.12t64.lintian-overrides b/debian/libpython3.12t64.lintian-overrides
-deleted file mode 100644
-index ca7fd77..0000000
 --- a/debian/libpython3.12t64.lintian-overrides
 +++ /dev/null
 @@ -1 +0,0 @@
 -libpython3.12t64: package-name-doesnt-match-sonames libpython3.12
-diff --git a/debian/rules b/debian/rules
-index 5fc1d7f..3dfda24 100755
 --- a/debian/rules
 +++ b/debian/rules
-@@ -280,7 +280,7 @@ scriptdir	=  usr/lib/python$(VER)
+@@ -278,7 +278,7 @@
  p_base	:= $(PVER)
  p_npie	:= $(PVER)-nopie
  p_min	:= $(PVER)-minimal
@@ -401,7 +357,7 @@ index 5fc1d7f..3dfda24 100755
  p_tk	:= $(PVER)-tk
  p_dev	:= $(PVER)-dev
  p_exam	:= $(PVER)-examples
-@@ -294,7 +294,7 @@ p_full	:= $(PVER)-full
+@@ -292,7 +292,7 @@
  p_lbase	:= lib$(PVER)-stdlib
  p_lmin	:= lib$(PVER)-minimal
  p_ldev	:= lib$(PVER)-dev

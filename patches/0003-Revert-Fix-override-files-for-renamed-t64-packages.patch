@@ -9,11 +9,9 @@ This reverts commit 0698a384267367a521f80ad3e163e2fe5195f950.
  debian/libPVERt64.overrides.in     |  4 ++--
  3 files changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/debian/changelog b/debian/changelog
-index 69ba6c4..0cf0531 100644
 --- a/debian/changelog
 +++ b/debian/changelog
-@@ -19,11 +19,9 @@ python3.12 (3.12.2-5) unstable; urgency=medium
+@@ -57,11 +57,9 @@
  
  python3.12 (3.12.2-4) unstable; urgency=medium
  
@@ -25,8 +23,6 @@ index 69ba6c4..0cf0531 100644
    * Fix package names in PVER-dbg maintainer scripts. Addresses: #1065164.
    * Really build without LTO when requested.
  
-diff --git a/debian/libPVERt64-dbg.overrides.in b/debian/libPVERt64-dbg.overrides.in
-index 249ef2a..2496cd5 100644
 --- a/debian/libPVERt64-dbg.overrides.in
 +++ b/debian/libPVERt64-dbg.overrides.in
 @@ -1,20 +1,20 @@
@@ -59,8 +55,6 @@ index 249ef2a..2496cd5 100644
  # pyexpat.c contains expat error messages that lintian mis-attributes to embedding
 -lib@PVER@t64-dbg binary: embedded-library
 +lib@PVER@-dbg binary: embedded-library
-diff --git a/debian/libPVERt64.overrides.in b/debian/libPVERt64.overrides.in
-index 6004d81..062dd46 100644
 --- a/debian/libPVERt64.overrides.in
 +++ b/debian/libPVERt64.overrides.in
 @@ -1,4 +1,4 @@

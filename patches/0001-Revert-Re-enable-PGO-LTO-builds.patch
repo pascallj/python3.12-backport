@@ -8,11 +8,9 @@ This reverts commit b264c77ae98247adf4f99f75a37393232a55e580.
  debian/rules     | 3 +++
  2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/debian/changelog b/debian/changelog
-index 4d5bff2..e81b2ca 100644
 --- a/debian/changelog
 +++ b/debian/changelog
-@@ -14,7 +14,6 @@ python3.12 (3.12.2-5) unstable; urgency=medium
+@@ -52,7 +52,6 @@
    * Use CFLAGS_NODIST, LDFLAGS_NODIST for passing build flags.
    * d/rules: Move configure/build targets for each build together.
    * Drop ffi configure options, obsolete.
@@ -20,11 +18,9 @@ index 4d5bff2..e81b2ca 100644
  
   -- Matthias Klose <doko@debian.org>  Tue, 02 Apr 2024 16:53:02 +0200
  
-diff --git a/debian/rules b/debian/rules
-index ca0a1a4..47dbe0b 100755
 --- a/debian/rules
 +++ b/debian/rules
-@@ -233,6 +233,8 @@ ifneq (,$(findstring noopt, $(DEB_BUILD_OPTIONS)))
+@@ -231,6 +231,8 @@
      with_pgo =
      with_lto =
  endif
@@ -33,7 +29,7 @@ index ca0a1a4..47dbe0b 100755
  
  BASE_LTO_CFLAGS = -g -fwrapv -O3
  ifeq ($(with_lto),yes)
-@@ -255,6 +257,7 @@ sysconfig_substflags = \
+@@ -253,6 +255,7 @@
  	-e "s/-specs=[^ '\"]*//g" \
  	-e "s/-fdebug-prefix-map=[^ '\"]*//g" \
  	-e "s/-ffile-prefix-map=[^ '\"]*//g" \
