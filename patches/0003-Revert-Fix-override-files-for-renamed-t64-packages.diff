@@ -1,13 +1,8 @@
-From: Pascal Roeleven <dev@pascalroeleven.nl>
-Date: Thu, 2 May 2024 14:38:00 +0200
-Subject: Revert "  * Fix override files for renamed t64 packages."
-
-This reverts commit 0698a384267367a521f80ad3e163e2fe5195f950.
----
- debian/changelog                   |  2 --
- debian/libPVERt64-dbg.overrides.in | 18 +++++++++---------
- debian/libPVERt64.overrides.in     |  4 ++--
- 3 files changed, 11 insertions(+), 13 deletions(-)
+Description: The mesa t64 transition is not a thing on Bookworm, therefore
+ we don't need this patch.
+ .
+ This reverts commit 0698a384267367a521f80ad3e163e2fe5195f950.
+Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/changelog
 +++ b/debian/changelog

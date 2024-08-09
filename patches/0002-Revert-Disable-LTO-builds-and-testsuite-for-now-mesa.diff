@@ -1,15 +1,8 @@
-From: Pascal Roeleven <dev@pascalroeleven.nl>
-Date: Thu, 2 May 2024 14:38:00 +0200
-Subject: Revert "  * Disable LTO builds and testsuite for now (mesa t64
- transition ...)."
-
-This reverts commit 735d431bcfec62fa4bb573a450027d87b6843bd6.
----
- debian/changelog  | 1 -
- debian/control    | 8 +++-----
- debian/control.in | 6 ++----
- debian/rules      | 4 ----
- 4 files changed, 5 insertions(+), 14 deletions(-)
+Description: The mesa t64 transition is not a thing on Bookworm, therefore
+ we don't need this patch.
+ .
+ This reverts commit 735d431bcfec62fa4bb573a450027d87b6843bd6..
+Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/changelog
 +++ b/debian/changelog

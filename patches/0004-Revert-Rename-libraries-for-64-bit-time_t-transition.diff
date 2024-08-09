@@ -1,39 +1,8 @@
-From: Pascal Roeleven <dev@pascalroeleven.nl>
-Date: Thu, 2 May 2024 14:38:00 +0200
-Subject: Revert "  * Rename libraries for 64-bit time_t transition,
- declare X-Time64-Compat"
-
-This reverts commit e06c71af05053440c9a576c5573865aef521ee25.
----
- debian/changelog                              |  6 +-----
- debian/control                                | 19 +++++++------------
- debian/control.in                             | 19 +++++++------------
- debian/libPVER-dbg.overrides.in               | 20 ++++++++++++++++++++
- debian/libPVER-dbg.prerm.in                   | 23 +++++++++++++++++++++++
- debian/libPVER-dbg.symbols.in                 | 17 +++++++++++++++++
- debian/libPVER.overrides.in                   |  4 ++++
- debian/libPVER.symbols.in                     |  4 ++++
- debian/libPVERt64-dbg.overrides.in            | 20 --------------------
- debian/libPVERt64-dbg.prerm.in                | 23 -----------------------
- debian/libPVERt64-dbg.symbols.in              | 17 -----------------
- debian/libPVERt64.overrides.in                |  4 ----
- debian/libPVERt64.symbols.in                  |  4 ----
- debian/libpython3.12t64-dbg.lintian-overrides |  1 -
- debian/libpython3.12t64.lintian-overrides     |  1 -
- debian/rules                                  |  4 ++--
- 16 files changed, 85 insertions(+), 101 deletions(-)
- create mode 100644 debian/libPVER-dbg.overrides.in
- create mode 100644 debian/libPVER-dbg.prerm.in
- create mode 100644 debian/libPVER-dbg.symbols.in
- create mode 100644 debian/libPVER.overrides.in
- create mode 100644 debian/libPVER.symbols.in
- delete mode 100644 debian/libPVERt64-dbg.overrides.in
- delete mode 100644 debian/libPVERt64-dbg.prerm.in
- delete mode 100644 debian/libPVERt64-dbg.symbols.in
- delete mode 100644 debian/libPVERt64.overrides.in
- delete mode 100644 debian/libPVERt64.symbols.in
- delete mode 100644 debian/libpython3.12t64-dbg.lintian-overrides
- delete mode 100644 debian/libpython3.12t64.lintian-overrides
+Description: The mesa t64 transition is not a thing on Bookworm, therefore
+ we don't need this patch.
+ .
+ This reverts commit e06c71af05053440c9a576c5573865aef521ee25.
+Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/changelog
 +++ b/debian/changelog

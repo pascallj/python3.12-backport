@@ -35,7 +35,7 @@ RUN	apt-get source --download-only ${PYTHON_NAME}=${PYTHON_VERSION} && \
 	dpkg-source -x --skip-patches ${PYTHON_NAME}*.dsc && \
 	mv ${PYTHON_NAME}*/ python-source
 WORKDIR python-source
-ADD patches/*.diff patches/*.patch debian/patches
+ADD patches/*.diff debian/patches
 ADD patches/series debian/patches/series_extra
 RUN	sed -i '/^ensurepip-disabled.diff$/s/^/#/' debian/patches/series && \
 	cat debian/patches/series_extra >> debian/patches/series

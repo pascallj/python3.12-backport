@@ -1,5 +1,6 @@
 ensurepip-enabled.diff
-0001-Revert-Re-enable-PGO-LTO-builds.patch
-0002-Revert-Disable-LTO-builds-and-testsuite-for-now-mesa.patch
-0003-Revert-Fix-override-files-for-renamed-t64-packages.patch
-0004-Revert-Rename-libraries-for-64-bit-time_t-transition.patch
+crossbuild-dep.diff
+0001-Revert-Re-enable-PGO-LTO-builds.diff
+0002-Revert-Disable-LTO-builds-and-testsuite-for-now-mesa.diff
+0003-Revert-Fix-override-files-for-renamed-t64-packages.diff
+0004-Revert-Rename-libraries-for-64-bit-time_t-transition.diff

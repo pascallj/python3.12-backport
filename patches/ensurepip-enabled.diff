@@ -1,4 +1,5 @@
 Description: Re-enable ensurepip inside this package
+Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/rules
 +++ b/debian/rules
@@ -42,7 +43,7 @@ Description: Re-enable ensurepip inside this package
  
 --- a/Lib/ensurepip/__init__.py
 +++ b/Lib/ensurepip/__init__.py
-@@ -24,7 +24,7 @@
+@@ -52,7 +52,7 @@
  # policies recommend against bundling dependencies. For example, Fedora
  # installs wheel packages in the /usr/share/python-wheels/ directory and don't
  # install the ensurepip._bundled package.

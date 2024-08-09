@@ -1,20 +1,20 @@
-diff -u a/debian/control b/debian/control
+Description: This is needed for crossbuilding packages
+Author: Pascal Roeleven <dev@pascalroeleven.nl>
+
 --- a/debian/control
 +++ b/debian/control
-@@ -19,7 +19,7 @@
-   net-tools, xvfb <!nocheck>, xauth <!nocheck>, tzdata <!nocheck>,
+@@ -23,7 +23,7 @@
+   tzdata <!nocheck>,
    systemtap-sdt-dev [!hurd-amd64 !hurd-i386],
    valgrind-if-available,
 -Build-Depends-Indep: python3-sphinx, python3-docs-theme, texinfo
 +Build-Depends-Indep: python3-sphinx:all, python3-docs-theme:all, texinfo
- Standards-Version: 4.6.2
+ Standards-Version: 4.7.0
  Vcs-Browser: https://salsa.debian.org/cpython-team/python3
  Vcs-Git: https://salsa.debian.org/cpython-team/python3.git
- 
-diff -u a/debian/rules b/debian/rules
 --- a/debian/rules
 +++ b/debian/rules
-@@ -1456,7 +1456,7 @@
+@@ -1452,7 +1452,7 @@
  	done
  
  	: # devhelp docs
