@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG PYTHON_NAME="python3.12"
 ARG PYTHON_VERSION="3.12.5-4"
-ARG DIST_NAME="sid"
+ARG DIST_NAME="trixie"
 
 # -------------------- Preparation --------------------
 FROM debian:bookworm-slim AS pre-build
