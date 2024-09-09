@@ -6,7 +6,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/changelog
 +++ b/debian/changelog
-@@ -77,11 +77,7 @@
+@@ -101,11 +101,7 @@
    * Don't rely on module state in teedataobject_clear (from Brandt Bucher in
      https://github.com/python/cpython/issues/115874). Closes: #1063345.
  
@@ -60,7 +60,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  Recommends: gdb
  Suggests: python3-gdbm-dbg, python3-tk-dbg
  Description: Debug Build of the Python Interpreter (version 3.12)
-@@ -239,16 +236,14 @@
+@@ -239,9 +236,7 @@
   .
   See the README.debug for more information.
  
@@ -71,15 +71,6 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  Section: debug
  Architecture: any
  Multi-Arch: same
- Pre-Depends: ${misc:Pre-Depends}
- Depends: libpython3.12-stdlib (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
--Breaks: libpython3.12-dbg (<< ${source:Version}), python3-gdbm-dbg (<< 3.9.9-1~)
--Replaces: libpython3.12-dbg, python3-gdbm-dbg (<< 3.9.9-1~)
-+Breaks: python3-gdbm-dbg (<< 3.9.9-1~)
-+Replaces: python3-gdbm-dbg (<< 3.9.9-1~)
- Description: Debug Build of the Python Interpreter (version 3.12)
-  The package holds two things:
-  .
 --- a/debian/control.in
 +++ b/debian/control.in
 @@ -118,10 +118,7 @@
@@ -121,7 +112,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  Recommends: gdb
  Suggests: python3-gdbm-dbg, python3-tk-dbg
  Description: Debug Build of the Python Interpreter (version @VER@)
-@@ -239,16 +236,14 @@
+@@ -239,9 +236,7 @@
   .
   See the README.debug for more information.
  
@@ -132,15 +123,6 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  Section: debug
  Architecture: any
  Multi-Arch: same
- Pre-Depends: ${misc:Pre-Depends}
- Depends: lib@PVER@-stdlib (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
--Breaks: lib@PVER@-dbg (<< ${source:Version}), python3-gdbm-dbg (<< 3.9.9-1~)
--Replaces: lib@PVER@-dbg, python3-gdbm-dbg (<< 3.9.9-1~)
-+Breaks: python3-gdbm-dbg (<< 3.9.9-1~)
-+Replaces: python3-gdbm-dbg (<< 3.9.9-1~)
- Description: Debug Build of the Python Interpreter (version @VER@)
-  The package holds two things:
-  .
 --- /dev/null
 +++ b/debian/libPVER-dbg.overrides.in
 @@ -0,0 +1,20 @@
@@ -317,16 +299,16 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
 -libpython3.12t64: package-name-doesnt-match-sonames libpython3.12
 --- a/debian/rules
 +++ b/debian/rules
-@@ -278,7 +278,7 @@
+@@ -279,7 +279,7 @@
  p_base	:= $(PVER)
  p_npie	:= $(PVER)-nopie
  p_min	:= $(PVER)-minimal
 -p_lib	:= lib$(PVER)t64
 +p_lib	:= lib$(PVER)
+ p_gdbm	:= $(PVER)-gdbm
  p_tk	:= $(PVER)-tk
  p_dev	:= $(PVER)-dev
- p_exam	:= $(PVER)-examples
-@@ -292,7 +292,7 @@
+@@ -294,7 +294,7 @@
  p_lbase	:= lib$(PVER)-stdlib
  p_lmin	:= lib$(PVER)-minimal
  p_ldev	:= lib$(PVER)-dev
