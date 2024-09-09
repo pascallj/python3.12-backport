@@ -6,7 +6,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/changelog
 +++ b/debian/changelog
-@@ -57,11 +57,9 @@
+@@ -95,11 +95,9 @@
  
  python3.12 (3.12.2-4) unstable; urgency=medium
  
@@ -17,7 +17,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
 -  * Fix override files for renamed t64 packages.
    * Fix package names in PVER-dbg maintainer scripts. Addresses: #1065164.
    * Really build without LTO when requested.
- 
+   * Disable LTO builds and testsuite for now (mesa t64 transition ...).
 --- a/debian/libPVERt64-dbg.overrides.in
 +++ b/debian/libPVERt64-dbg.overrides.in
 @@ -1,20 +1,20 @@
