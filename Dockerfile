@@ -113,7 +113,7 @@ RUN cd native-debs && apt-get install -y ./lib${PYTHON_NAME}-minimal*.deb \
 	./${PYTHON_NAME}-minimal*.deb \
 	./${PYTHON_NAME}_*.deb
 
-RUN mk-build-deps --arch ${ARCH} --host-arch ${ARCH}
+RUN DEB_BUILD_PROFILES='nocheck nobench' mk-build-deps --arch ${ARCH} --host-arch ${ARCH}
 # We don't need build-essential for cross-compiling, but mk-build-deps insists of adding it
 # Hacky way to remove that:
 RUN	mkdir rebuild-cross-deps && \
