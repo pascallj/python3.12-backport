@@ -122,7 +122,7 @@ RUN	mkdir rebuild-cross-deps && \
 	dpkg-deb -b rebuild-cross-deps
 RUN apt-get install -y --no-install-recommends ./rebuild-cross-deps.deb
 
-RUN DEB_BUILD_OPTIONS='nocheck nobench' debuild -b -uc -us -a${ARCH} --ignore-builtin-builddeps
+RUN DEB_BUILD_PROFILES='nocheck nobench' debuild -b -uc -us -a${ARCH} --ignore-builtin-builddeps
 RUN mkdir debs && mv ../*.deb debs
 
 # -------------------- Export crossbuild artifacts --------------------
