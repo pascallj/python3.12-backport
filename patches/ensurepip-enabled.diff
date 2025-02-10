@@ -12,14 +12,6 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  
  # TODO: these hang/fail with new OpenSSL
  PROFILE_EXCLUDES += \
-@@ -371,7 +371,6 @@
- 		--enable-loadable-sqlite-extensions \
- 		--with-dbmliborder=$(dbmliborder) \
- 		--with-computed-gotos \
--		--without-ensurepip \
- 		--with-system-expat \
- 		--with-ssl-default-suites=openssl \
- 		--with-wheel-pkg-dir=/usr/share/python-wheels/ \
 @@ -581,7 +580,7 @@
  endif
  TESTOPTS = -j 1 -w -u$(TEST_RESOURCES) --timeout=3600
