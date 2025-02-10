@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 ARG PYTHON_NAME="python3.12"
-ARG PYTHON_VERSION="3.12.8-3"
+ARG PYTHON_VERSION="3.12.9-1"
 ARG DIST_NAME="trixie"
 
 # -------------------- Preparation --------------------
