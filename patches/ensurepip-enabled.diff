@@ -3,7 +3,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
 
 --- a/debian/rules
 +++ b/debian/rules
-@@ -333,7 +333,7 @@
+@@ -334,7 +334,7 @@
  	test_threading test_threading_local test_threadsignals \
  	test_concurrent_futures test_ctypes \
  	test_dbm_dumb test_dbm_ndbm test_pydoc test_sundry \
@@ -12,7 +12,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  
  # TODO: these hang/fail with new OpenSSL
  PROFILE_EXCLUDES += \
-@@ -370,7 +370,6 @@
+@@ -371,7 +371,6 @@
  		--enable-loadable-sqlite-extensions \
  		--with-dbmliborder=$(dbmliborder) \
  		--with-computed-gotos \
@@ -20,16 +20,16 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  		--with-system-expat \
  		--with-ssl-default-suites=openssl \
  		--with-wheel-pkg-dir=/usr/share/python-wheels/ \
-@@ -580,7 +579,7 @@
+@@ -581,7 +580,7 @@
  endif
  TESTOPTS = -j 1 -w -u$(TEST_RESOURCES) --timeout=3600
  TEST_EXCLUDES =
--TEST_EXCLUDES += test_ensurepip test_venv
-+TEST_EXCLUDES += test_venv
+-TEST_EXCLUDES += test_ensurepip test_venv test_cext
++TEST_EXCLUDES += test_venv test_cext
  ifeq ($(on_buildd),yes)
    TEST_EXCLUDES += test_tcl test_codecmaps_cn test_codecmaps_hk \
          test_codecmaps_jp test_codecmaps_kr test_codecmaps_tw \
-@@ -931,11 +930,6 @@
+@@ -926,11 +925,6 @@
  	rm -f $(d)/$(scriptdir)/lib2to3/*.pickle
  	rm -f $(d)/usr/share/man/man1/python3.1
  
@@ -54,7 +54,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  def _find_packages(path):
 --- a/debian/control
 +++ b/debian/control
-@@ -52,8 +52,6 @@
+@@ -55,8 +55,6 @@
  Multi-Arch: allowed
  Priority: optional
  Depends: python3.12 (= ${binary:Version}),
@@ -65,7 +65,7 @@ Author: Pascal Roeleven <dev@pascalroeleven.nl>
  Description: Interactive high-level object-oriented language (pyvenv binary, version 3.12)
 --- a/debian/control.in
 +++ b/debian/control.in
-@@ -52,8 +52,6 @@
+@@ -55,8 +55,6 @@
  Multi-Arch: allowed
  Priority: @PRIO@
  Depends: @PVER@ (= ${binary:Version}),
